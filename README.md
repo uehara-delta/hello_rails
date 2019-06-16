@@ -49,6 +49,11 @@ Action Cable 関連(WebSocketsを扱うために使用)。
 
 ## app/controllers
 
+### application_controller.rb
+
+各コントローラの共通基底クラス。
+共通で定義したいリクエストの前処理などを定義できる。
+
 ### entries_contorller.rb
 
 コントローラクラス
