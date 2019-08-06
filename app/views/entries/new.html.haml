@@ -1,5 +1,9 @@
-%h1 New Entry
+%main.uk-margin.uk-padding-small
 
-= render 'form', entry: @entry
+  %article.uk-article
 
-= link_to 'Back', entries_path
+    %h1 New Entry
+
+    = render 'form', blog: @blog, entry: @entry
+
+    = link_to 'Back', @blog

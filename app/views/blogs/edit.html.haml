@@ -1,0 +1,11 @@
+%main.uk-margin.uk-padding-small
+
+  %article.uk-article
+
+    %h1 Editing blog
+
+    = render 'form', blog: @blog
+
+    = link_to 'Show', @blog
+    \|
+    = link_to 'Back', blogs_path

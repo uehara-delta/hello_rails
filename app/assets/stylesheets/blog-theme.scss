@@ -1,0 +1,10 @@
+$global-link-color: #308546;
+
+@import "uikit/src/scss/variables-theme.scss";
+@import "uikit/src/scss/mixins-theme.scss";
+@import "uikit/src/scss/uikit-theme.scss";
+
+body {
+    min-width: 230px;
+    max-width: 800px;
+}

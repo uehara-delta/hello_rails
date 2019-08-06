@@ -1,13 +1,61 @@
-%p#notice= notice
+%main.uk-margin.uk-padding-small
 
-%p
-  %strong Title:
-  = @entry.title
+  %article.uk-article
 
-%p
-  %strong Body:
-  = @entry.body
+    - if notice
+      .uk-alert.uk-alert-primary{"uk-alert": true}
+        %a.uk-alert-close.uk-close{"uk-close": true}
+        %p#notice= notice
 
-= link_to 'Edit', edit_entry_path(@entry)
-\|
-= link_to 'Back', entries_path
+    %h1.uk-article-title
+      %strong Title:
+      = @entry.title
+
+      %p.uk-text-lead
+        %strong Body:
+        = @entry.body
+
+    = link_to 'Edit', edit_blog_entry_path(@blog, @entry)
+    \|
+    = link_to 'Back', @blog
+
+    %hr
+
+    %article
+      %h2.uk-article-title.uk-heading-divider Listing comments
+
+      %table.uk-table.uk-table-divider
+        %thead
+          %tr
+            %th Body
+            %th{colspan: "2"}
+        %tbody
+          - @entry.comments.each do |comment|
+            %tr
+              - if comment.status == "approved"
+                %td= comment.body
+                %td
+              - else
+                %td (承認待ち)
+                %td= link_to 'Approve', approve_blog_entry_comment_path(@blog, @entry, comment), method: :put
+              %td= link_to 'Destroy', blog_entry_comment_path(@blog, @entry, comment), method: :delete, data: { confirm: 'Are you sure?' }
+
+      %h2.uk-article-title New comment
+      = form_with(model: [@blog, @entry, @new_comment], local: true, class: "uk-form-stacked") do |form|
+        .uk-margin
+          - if @new_comment.errors.any?
+            #error_explanation
+              %h2= "#{pluralize(@new_comment.errors.count, "error")} prohibited this comment from begin saved:"
+
+              %ul
+                - @new_comment.errors.full_messages.each do |message|
+                  %li= message
+
+        .uk-margin
+          = form.label :body, class: "uk-form-label"
+          .uk-form-controls
+            = form.text_area :body, class: "uk-textarea"
+
+        .uk-margin
+          .actions
+            = form.submit "Save", class: "uk-button uk-button-default uk-button-small"
