@@ -1,0 +1,14 @@
+!!!
+%html
+  %head
+    %title 新しいコメントが投稿されました
+
+  %body
+    %h1 新しいコメントが投稿されました。
+
+    %p 承認または削除してください。
+
+    %ul
+      %li= "Blog: #{@comment.entry.blog.title}"
+      %li= "Entry: #{@comment.entry.title}"
+      %li= "Comment: #{@comment.body}"

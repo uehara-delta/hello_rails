@@ -6,8 +6,10 @@ class CommentsController < ApplicationController
   # POST /blogs/1/entries/1/comments.json
   def create
     @comment = Comment.new(comment_params)
+    @comment.status = 'unapproved'
     respond_to do |format|
       if @comment.save
+        NoticeMailer.with(comment: @comment).confirm_comment_mail.deliver_later
         format.html { redirect_to [@blog, @entry], notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: [@blog, @entry, @comment] }
       else
