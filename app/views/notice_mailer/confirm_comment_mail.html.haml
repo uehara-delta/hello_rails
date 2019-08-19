@@ -9,6 +9,10 @@
     %p 承認または削除してください。
 
     %ul
-      %li= "Blog: #{@comment.entry.blog.title}"
-      %li= "Entry: #{@comment.entry.title}"
+      %li= "Blog: #{@blog.title}"
+      %li= "Entry: #{@entry.title}"
       %li= "Comment: #{@comment.body}"
+      %br
+      %li
+        URL:
+        = link_to nil, blog_entry_url(@blog, @entry)

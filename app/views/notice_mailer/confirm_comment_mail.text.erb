@@ -2,6 +2,8 @@
 
 承認または削除してください。
 
-Blog: <%= @comment.entry.blog.title %>
-Entry: <%= @comment.entry.title %>
+Blog: <%= @blog.title %>
+Entry: <%= @entry.title %>
 Comment: <%= @comment.body %>
+
+URL: <%= blog_entry_url(@blog, @entry) %>

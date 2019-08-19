@@ -62,4 +62,7 @@ Rails.application.configure do
   # Use letter_opener gem to preview email in browser instead of sending it.
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+
+  # Host name for use in email body.
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 end
