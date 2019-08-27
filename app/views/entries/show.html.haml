@@ -15,7 +15,7 @@
         %strong Body:
         = @entry.body
 
-    = link_to 'Edit', edit_blog_entry_path(@blog, @entry)
+    = link_to 'Edit', edit_blog_entry_path(@blog, @entry), id: "entry-edit-link"
     \|
     = link_to 'Back', @blog
 
@@ -31,7 +31,7 @@
             %th{colspan: "2"}
         %tbody
           - @entry.comments.each do |comment|
-            %tr
+            %tr{ id: "comment-row-#{comment.id}" }
               - if comment.status == "approved"
                 %td= comment.body
                 %td

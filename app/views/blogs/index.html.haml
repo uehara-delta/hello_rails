@@ -16,7 +16,7 @@
           %th{colspan: "3"}
       %tbody
         - @blogs.each do |blog|
-          %tr
+          %tr{ id: "blog-row-#{blog.id}" }
             %td= blog.title
             %td= link_to 'Show', blog
             %td= link_to 'Edit', edit_blog_path(blog)
