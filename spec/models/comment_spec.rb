@@ -14,12 +14,12 @@ RSpec.describe Comment, type: :model do
     entry = blog.entries.new(title: "新しいエントリ", body: "エントリの本文")
     comment = entry.comments.new(body: nil)
     comment.valid?
-    expect(comment.errors[:body]).to include("can't be blank")
+    expect(comment.errors[:body]).to include("を入力してください")
   end
 
   it "entryに属していなければ無効な状態であること" do
     comment = Comment.new(body: "新しいコメント")
     comment.valid?
-    expect(comment.errors[:entry]).to include("must exist")
+    expect(comment.errors[:entry]).to include("を入力してください")
   end
 end

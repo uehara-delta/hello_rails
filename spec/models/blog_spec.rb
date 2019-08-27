@@ -10,6 +10,6 @@ RSpec.describe Blog, type: :model do
   it "titleがなければ無効な状態であること" do
     blog = Blog.new(title: nil)
     blog.valid?
-    expect(blog.errors[:title]).to include("can't be blank")
+    expect(blog.errors[:title]).to include("を入力してください")
   end
 end

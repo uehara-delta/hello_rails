@@ -1,3 +1,4 @@
+# coding: utf-8
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -69,3 +70,6 @@ end
 
 # Haml
 gem 'haml-rails'
+
+# 日本語化
+gem 'rails-i18n'

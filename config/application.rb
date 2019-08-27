@@ -1,3 +1,4 @@
+# coding: utf-8
 require_relative 'boot'
 
 require "rails"
@@ -28,6 +29,9 @@ module HelloRails
     # the framework and any gems in your application.
 
     # Don't generate system test files.
-    config.generators.system_tests = nil
+    # config.generators.system_tests = nil
+
+    # 日本語化
+    config.i18n.default_locale = :ja
   end
 end
