@@ -1,19 +1,9 @@
-= form_with(model: [blog, entry], local: true) do |form|
-  .m-3
-    - if entry.errors.any?
-      #error_explanation.alert.alert-danger
-        %h2= "#{pluralize(entry.errors.count, "error")} prohibited this entry from being saved:"
-        %ul
-          - entry.errors.full_messages.each do |message|
-            %li= message
-
+= simple_form_for [blog, entry] do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
   .form-group
-    = form.label :title
-    = form.text_field :title, class: "form-control"
-
+    = f.input :title
   .form-group
-    = form.label :body
-    = form.text_area :body, class: "form-control"
-
-  .actions
-    = form.submit "Save", class: "btn btn-primary"
+    = f.input :body
+  .form-actions
+    = f.button :submit, class: "btn-primary"

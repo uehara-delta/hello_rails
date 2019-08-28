@@ -9,7 +9,7 @@ RSpec.describe 'Comment管理', type: :system do
     visit blog_entry_path(blog, entry)
 
     expect {
-      click_button 'Save'
+      click_button '登録'
     }.to_not change(Comment, :count)
     expect(page).to have_content "Bodyを入力してください"
   end
@@ -17,9 +17,9 @@ RSpec.describe 'Comment管理', type: :system do
   scenario 'Commentの新規作成時にbodyを入力した場合は未承認状態でデータが保存されること' do
     visit blog_entry_path(blog, entry)
 
-    fill_in :Body, with: "新しいコメント"
+    fill_in :'内容', with: "新しいコメント"
     expect {
-      click_button 'Save'
+      click_button '登録'
     }.to change(Comment, :count).by(1)
     aggregate_failures do
       expect(current_path).to eq blog_entry_path(blog, entry)

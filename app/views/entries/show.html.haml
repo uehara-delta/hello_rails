@@ -11,7 +11,7 @@
   = link_to 'Back', @blog, class: "btn btn-link"
 
 .mt-2
-  %h3 Listing comments
+  %h3 Comments
 
   %table.table
     %tbody
@@ -28,17 +28,10 @@
   .card
     .card-body
       %h4.card-title New comment
-      = form_with(model: [@blog, @entry, @new_comment], local: true) do |form|
-        .m-3
-          - if @new_comment.errors.any?
-            #error_explanation.alert.alert-danger
-              %h2= "#{pluralize(@new_comment.errors.count, "error")} prohibited this comment from begin saved:"
-              %ul
-                - @new_comment.errors.full_messages.each do |message|
-                  %li= message
-
+      = simple_form_for [@blog, @entry, @new_comment] do |f|
+        = f.error_notification
+        = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
         .form-group
-          = form.label :body
-          = form.text_area :body, class: "form-control"
-        .actions
-          = form.submit "Save", class: "btn btn-secondary"
+          = f.input :body
+        .form-actions
+          = f.button :submit, class: "btn-secondary"

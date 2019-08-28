@@ -7,10 +7,10 @@ RSpec.describe 'Entry管理', type: :system do
   scenario 'Entryの新規作成時にtitleを入力しなかった場合にエラーが表示されること' do
     visit blog_path(blog)
     click_link 'New Entry'
-    fill_in :Body, with: 'body'
+    fill_in :'本文', with: 'body'
 
     expect {
-      click_button 'Save'
+      click_button '登録'
     }.to_not change(Entry, :count)
     expect(page).to have_content "Titleを入力してください"
   end
@@ -18,10 +18,10 @@ RSpec.describe 'Entry管理', type: :system do
   scenario 'Entryの新規作成時にbodyを入力しなかった場合にエラーが表示されること' do
     visit blog_path(blog)
     click_link 'New Entry'
-    fill_in :Title, with: 'title'
+    fill_in :'タイトル', with: 'title'
 
     expect {
-      click_button 'Save'
+      click_button '登録'
     }.to_not change(Entry, :count)
     expect(page).to have_content "Bodyを入力してください"
   end
@@ -29,11 +29,11 @@ RSpec.describe 'Entry管理', type: :system do
   scenario 'Entryの新規作成時にtitleとbodyを入力した場合はデータが保存され閲覧画面に遷移すること' do
     visit blog_path(blog)
     click_link 'New Entry'
-    fill_in :Title, with: '新しいタイトル'
-    fill_in :Body, with: '新しい内容'
+    fill_in :'タイトル', with: '新しいタイトル'
+    fill_in :'本文', with: '新しい内容'
 
     expect {
-      click_button 'Save'
+      click_button '登録'
     }.to change(Entry, :count).by(1)
     aggregate_failures do
       expect(current_path).to eq blog_entry_path(blog, blog.entries.last)
@@ -85,9 +85,9 @@ RSpec.describe 'Entry管理', type: :system do
 
     expect(current_path).to eq edit_blog_entry_path(blog, entry)
 
-    fill_in :Title, with: "変更後のタイトル"
-    fill_in :Body, with: "変更後の内容"
-    click_button 'Save'
+    fill_in :'タイトル', with: "変更後のタイトル"
+    fill_in :'本文', with: "変更後の内容"
+    click_button '更新'
 
     aggregate_failures do
       expect(current_path).to eq blog_entry_path(blog, entry)
@@ -128,9 +128,9 @@ RSpec.describe 'Entry管理', type: :system do
 
     expect(current_path).to eq edit_blog_entry_path(blog, entry)
 
-    fill_in :Title, with: "変更後のタイトル"
-    fill_in :Body, with: "変更後の内容"
-    click_button 'Save'
+    fill_in :'タイトル', with: "変更後のタイトル"
+    fill_in :'本文', with: "変更後の内容"
+    click_button '更新'
 
     aggregate_failures do
       expect(current_path).to eq blog_entry_path(blog, entry)

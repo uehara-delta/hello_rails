@@ -111,5 +111,3 @@ ActionMailerに関するビューはとりあえず無視
 * setup
 * update
 * yarn
-
-## config

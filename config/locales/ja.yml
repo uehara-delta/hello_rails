@@ -1,0 +1,17 @@
+ja:
+  helpers:
+    submit:
+      create: '登録'
+      update: '更新'
+      submit: '保存'
+  simple_form:
+    labels:
+      blog:
+        title: 'タイトル'
+      entry:
+        title: 'タイトル'
+        body: '本文'
+      comment:
+        body: '内容'
+    required:
+      html: '<abbr class="nec">必須</abbr>'

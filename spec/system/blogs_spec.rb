@@ -7,7 +7,7 @@ RSpec.describe 'Blog管理', type: :system do
     click_link 'New Blog'
 
     expect {
-      click_button 'Save'
+      click_button '登録'
     }.to_not change(Blog, :count)
     expect(page).to have_content "Titleを入力してください"
   end
@@ -15,10 +15,10 @@ RSpec.describe 'Blog管理', type: :system do
   scenario 'Blogの新規作成時にtitleを入力した場合はデータが保存され閲覧画面に遷移すること' do
     visit blogs_path
     click_link 'New Blog'
-    fill_in :Title, with: 'title'
+    fill_in :'タイトル', with: 'title'
 
     expect {
-      click_button 'Save'
+      click_button '登録'
     }.to change(Blog, :count).by(1)
     aggregate_failures do
       expect(current_path).to eq blog_path(Blog.last)
@@ -54,8 +54,8 @@ RSpec.describe 'Blog管理', type: :system do
 
     expect(current_path).to eq edit_blog_path(blog)
 
-    fill_in :Title, with: "変更後のタイトル"
-    click_button 'Save'
+    fill_in :'タイトル', with: "変更後のタイトル"
+    click_button '更新'
 
     aggregate_failures do
       expect(current_path).to eq blog_path(blog)
@@ -97,8 +97,8 @@ RSpec.describe 'Blog管理', type: :system do
 
     expect(current_path).to eq edit_blog_path(blog)
 
-    fill_in :Title, with: "変更後のタイトル"
-    click_button 'Save'
+    fill_in :'タイトル', with: "変更後のタイトル"
+    click_button '更新'
 
     aggregate_failures do
       expect(current_path).to eq blog_path(blog)

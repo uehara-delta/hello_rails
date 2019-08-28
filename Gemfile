@@ -81,3 +81,8 @@ gem 'font-awesome-sass'
 # Bootstrap
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
+gem 'popper_js'
+gem 'tether-rails'
+
+# simple_form
+gem 'simple_form'
