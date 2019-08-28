@@ -27,6 +27,14 @@ RSpec.describe 'Comment管理', type: :system do
       expect(page).to_not have_content '新しいコメント'
       expect(page).to have_content '(承認待ち)'
     end
+
+    mail = ActionMailer::Base.deliveries.last
+
+    aggregate_failures do
+      expect(mail.to).to eq ["admin@example.com"]
+      expect(mail.text_part.body.encoded).to match "Blog: #{blog.title}"
+      expect(mail.html_part.body.encoded).to match "Blog: #{blog.title}"
+    end
   end
 
   scenario 'Entryの閲覧画面に関連するCommentの一覧が表示され、承認済みのCommentのみ内容が表示されること' do
