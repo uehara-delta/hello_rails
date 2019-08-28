@@ -1,11 +1,7 @@
-%main.uk-margin.uk-padding-small
+%h1 Editing Entry
 
-  %article.uk-article
+= render 'form', blog: @blog, entry: @entry
 
-    %h1 Editing Entry
-
-    = render 'form', blog: @blog, entry: @entry
-
-    = link_to 'Show', blog_entry_path(@blog, @entry)
-    \|
-    = link_to 'Back', @blog
+.d-flex.flex-row.mt-2
+  = link_to 'Show', blog_entry_path(@blog, @entry), class: "btn btn-link"
+  = link_to 'Back', @blog, class: "btn btn-link"

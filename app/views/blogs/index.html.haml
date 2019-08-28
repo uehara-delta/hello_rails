@@ -1,25 +1,18 @@
-%main.uk-margin.uk-padding-small
+%h1
+  Listing blogs
+  = link_to new_blog_path, class: "btn btn-sm btn-primary" do
+    = icon('fas', 'plus')
+    New Blog
 
-  %article.uk-article
-
-    - if notice
-      .uk-alert.uk-alert-primary{"uk-alert": true}
-        %a.uk-alert-close.uk-close{"uk-close": true}
-        %p#notice= notice
-
-    %h1.uk-article-title Listing blogs
-
-    %table.uk-table.uk-table-divider
-      %thead
-        %tr
-          %th Title
-          %th{colspan: "3"}
-      %tbody
-        - @blogs.each do |blog|
-          %tr{ id: "blog-row-#{blog.id}" }
-            %td= blog.title
-            %td= link_to 'Show', blog
-            %td= link_to 'Edit', edit_blog_path(blog)
-            %td= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' }
-    %br
-    = link_to 'New Blog', new_blog_path
+%table.table
+  %thead
+    %tr
+      %th{scope: "col"} Title
+      %th{colspan: "3", scope: "col"}
+        %tbody
+          - @blogs.each do |blog|
+            %tr{ id: "blog-row-#{blog.id}" }
+              %td= blog.title
+              %td= link_to 'Show', blog
+              %td= link_to 'Edit', edit_blog_path(blog)
+              %td= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' }

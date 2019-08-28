@@ -9,4 +9,9 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   %body
-    = yield
+    = render "layouts/navbar"
+    .container-fluid
+      .m-3
+        = render "layouts/flash"
+      %main.col-12.bn-content.py-md-3{role: "main"}
+        = yield

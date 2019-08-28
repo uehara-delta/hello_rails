@@ -1,9 +1,6 @@
-%main.uk-margin.uk-padding-small
+%h1 New blog
 
-  %article.uk-article
+= render 'form', blog: @blog
 
-    %h1 New blog
-
-    = render 'form', blog: @blog
-
-    = link_to 'Back', blogs_path
+.d-flex.flex-row.mt-2
+  = link_to 'Back', blogs_path, class: "btn btn-link"

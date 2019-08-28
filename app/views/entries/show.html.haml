@@ -1,61 +1,44 @@
-%main.uk-margin.uk-padding-small
+%h1
+  = @entry.title
+  = link_to edit_blog_entry_path(@blog, @entry), id: "entry-edit-link", class: "m-2 btn btn-sm btn-secondary" do
+    = icon 'fas', 'edit'
+    Edit
 
-  %article.uk-article
+%p
+  = @entry.body
 
-    - if notice
-      .uk-alert.uk-alert-primary{"uk-alert": true}
-        %a.uk-alert-close.uk-close{"uk-close": true}
-        %p#notice= notice
+.d-flex.flex-row.mt-2
+  = link_to 'Back', @blog, class: "btn btn-link"
 
-    %h1.uk-article-title
-      %strong Title:
-      = @entry.title
+.mt-2
+  %h3 Listing comments
 
-      %p.uk-text-lead
-        %strong Body:
-        = @entry.body
+  %table.table
+    %tbody
+      - @entry.comments.each do |comment|
+        %tr{ id: "comment-row-#{comment.id}" }
+          - if comment.status == "approved"
+            %td= comment.body
+            %td
+          - else
+            %td (承認待ち)
+            %td= link_to 'Approve', approve_blog_entry_comment_path(@blog, @entry, comment), method: :put
+          %td= link_to 'Destroy', blog_entry_comment_path(@blog, @entry, comment), method: :delete, data: { confirm: 'Are you sure?' }
 
-    = link_to 'Edit', edit_blog_entry_path(@blog, @entry), id: "entry-edit-link"
-    \|
-    = link_to 'Back', @blog
-
-    %hr
-
-    %article
-      %h2.uk-article-title.uk-heading-divider Listing comments
-
-      %table.uk-table.uk-table-divider
-        %thead
-          %tr
-            %th Body
-            %th{colspan: "2"}
-        %tbody
-          - @entry.comments.each do |comment|
-            %tr{ id: "comment-row-#{comment.id}" }
-              - if comment.status == "approved"
-                %td= comment.body
-                %td
-              - else
-                %td (承認待ち)
-                %td= link_to 'Approve', approve_blog_entry_comment_path(@blog, @entry, comment), method: :put
-              %td= link_to 'Destroy', blog_entry_comment_path(@blog, @entry, comment), method: :delete, data: { confirm: 'Are you sure?' }
-
-      %h2.uk-article-title New comment
-      = form_with(model: [@blog, @entry, @new_comment], local: true, class: "uk-form-stacked") do |form|
-        .uk-margin
+  .card
+    .card-body
+      %h4.card-title New comment
+      = form_with(model: [@blog, @entry, @new_comment], local: true) do |form|
+        .m-3
           - if @new_comment.errors.any?
-            #error_explanation
+            #error_explanation.alert.alert-danger
               %h2= "#{pluralize(@new_comment.errors.count, "error")} prohibited this comment from begin saved:"
-
               %ul
                 - @new_comment.errors.full_messages.each do |message|
                   %li= message
 
-        .uk-margin
-          = form.label :body, class: "uk-form-label"
-          .uk-form-controls
-            = form.text_area :body, class: "uk-textarea"
-
-        .uk-margin
-          .actions
-            = form.submit "Save", class: "uk-button uk-button-default uk-button-small"
+        .form-group
+          = form.label :body
+          = form.text_area :body, class: "form-control"
+        .actions
+          = form.submit "Save", class: "btn btn-secondary"

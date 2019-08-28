@@ -1,23 +1,19 @@
-= form_with(model: [blog, entry], local: true, class: "uk-form-stacked") do |form|
-  .uk-margin
+= form_with(model: [blog, entry], local: true) do |form|
+  .m-3
     - if entry.errors.any?
-      #error_explanation
+      #error_explanation.alert.alert-danger
         %h2= "#{pluralize(entry.errors.count, "error")} prohibited this entry from being saved:"
-
         %ul
           - entry.errors.full_messages.each do |message|
             %li= message
 
-  .uk-margin
-    = form.label :title, class: "uk-form-label"
-    .uk-form-controls
-      = form.text_field :title, class: "uk-input"
+  .form-group
+    = form.label :title
+    = form.text_field :title, class: "form-control"
 
-  .uk-margin
-    = form.label :body, class: "uk-form-label"
-    .uk-form-controls
-      = form.text_area :body, class: "uk-textarea"
+  .form-group
+    = form.label :body
+    = form.text_area :body, class: "form-control"
 
-  .uk-margin
-    .actions
-      = form.submit "Save", class: "uk-button uk-button-default uk-button-small"
+  .actions
+    = form.submit "Save", class: "btn btn-primary"

@@ -14,5 +14,6 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
-//= require uikit/dist/js/uikit.min
-//= require uikit/dist/js/uikit-icons.min.js
+//= require jquery3
+//= require popper
+//= require bootstrap-sprockets

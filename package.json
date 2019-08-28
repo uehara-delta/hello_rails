@@ -1,7 +1,5 @@
 {
   "name": "hello_rails",
   "private": true,
-  "dependencies": {
-    "uikit": "^3.1.6"
-  }
+  "dependencies": {}
 }

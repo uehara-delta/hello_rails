@@ -74,3 +74,10 @@ gem 'haml-rails'
 
 # 日本語化
 gem 'rails-i18n'
+
+# font awesome
+gem 'font-awesome-sass'
+
+# Bootstrap
+gem 'bootstrap', '~> 4.3.1'
+gem 'jquery-rails'

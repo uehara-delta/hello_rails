@@ -1,37 +1,30 @@
-%main.uk-margin.uk-padding-small
+%h1
+  = @blog.title
+  = link_to edit_blog_path(@blog), id: "blog-edit-link", class: "m-2 btn btn-sm btn-secondary" do
+    = icon 'fas', 'edit'
+    Edit
 
-  %article.uk-article
+.d-flex.flex-row.mt-2
+  = link_to 'Back', blogs_path, class: "btn btn-link"
 
-    - if notice
-      .uk-alert.uk-alert-primary{"uk-alert": true}
-        %a.uk-alert-close.uk-close{"uk-close": true}
-        %p#notice= notice
+.mt-2
+  %h2.m-2.pt-2
+    Listing entries
+    = link_to new_blog_entry_path(@blog), class: "btn btn-sm btn-primary" do
+      = icon('fas', 'plus')
+      New Entry
 
-    %h1.uk-article-title
-      %strong Title:
-      = @blog.title
-
-    = link_to 'Edit', edit_blog_path(@blog), id: "blog-edit-link"
-    \|
-    = link_to 'Back', blogs_path
-
-    %hr
-
-    %article
-      %h2.uk-article-title.uk-heading-divider Listing entries
-
-      %table.uk-table.uk-table-divider
-        %thead
-          %tr
-            %th Title
-            %th Body
-            %th{colspan: "3"}
-        %tbody
-          - @blog.entries.each do |entry|
-            %tr{ id: "entry-row-#{entry.id}" }
-              %td= entry.title
-              %td= entry.body
-              %td= link_to 'Show', blog_entry_path(@blog, entry)
-              %td= link_to 'Edit', edit_blog_entry_path(@blog, entry)
-              %td= link_to 'Destroy', blog_entry_path(@blog, entry), method: :delete, data: { confirm: 'Are you sure?' }
-      = link_to 'New Entry', new_blog_entry_path(@blog)
+  %table.table
+    %thead
+      %tr
+        %th{scope: "col"} Title
+        %th Body
+        %th{colspan: "3", scope: "col"}
+    %tbody
+      - @blog.entries.each do |entry|
+        %tr{ id: "entry-row-#{entry.id}" }
+          %td= entry.title
+          %td= entry.body
+          %td= link_to 'Show', blog_entry_path(@blog, entry)
+          %td= link_to 'Edit', edit_blog_entry_path(@blog, entry)
+          %td= link_to 'Destroy', blog_entry_path(@blog, entry), method: :delete, data: { confirm: 'Are you sure?' }
