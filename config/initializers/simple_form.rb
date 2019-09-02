@@ -4,8 +4,8 @@
 # components.
 # See https://github.com/plataformatec/simple_form#custom-components to know
 # more about custom components.
-# Dir[Rails.root.join('lib/components/**/*.rb')].each { |f| require f }
-#
+Dir[Rails.root.join('lib/components/**/*.rb')].each { |f| require f }
+
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|
   # Wrappers are used by the form builder to generate a
@@ -176,4 +176,19 @@ SimpleForm.setup do |config|
   # Defines validation classes to the input_field. By default it's nil.
   # config.input_field_valid_class = 'is-valid'
   # config.input_field_error_class = 'is-invalid'
+
+  config.wrappers :with_numbers, tag: 'div', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :minlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+    b.use :number, wrap_with: { tag: 'span', class: 'form-title-number' }
+    b.use :label, class: 'form-control-label'
+    b.use :input, class: 'form-control', error_class: 'is-invalid', valid_class: 'is-valid'
+    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
+    b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+  end
 end

@@ -1,7 +1,5 @@
-= simple_form_for blog do |f|
+= simple_form_for blog, wrapper: :with_numbers do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
-  .form-group
-    = f.input :title
-  .form-actions
-    = f.button :submit, class: "btn-primary"
+  = f.input :title, number: 1
+  = f.button :submit, class: "btn-primary"
