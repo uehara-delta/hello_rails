@@ -15,6 +15,9 @@ RSpec.describe 'Comment管理', type: :system do
   end
 
   scenario 'Commentの新規作成時にbodyを入力した場合は未承認状態でデータが保存されること' do
+    ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+    ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
+
     visit blog_entry_path(blog, entry)
 
     fill_in :'内容', with: "新しいコメント"
@@ -27,7 +30,6 @@ RSpec.describe 'Comment管理', type: :system do
       expect(page).to_not have_content '新しいコメント'
       expect(page).to have_content '(承認待ち)'
     end
-
     mail = ActionMailer::Base.deliveries.last
 
     aggregate_failures do
