@@ -2,10 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Comment管理', type: :system do
+  let(:user) { FactoryBot.create(:user) }
   let(:blog) { FactoryBot.create(:blog) }
   let(:entry) { FactoryBot.create(:entry, blog: blog) }
 
   scenario 'Commentの新規作成時にbodyを入力しなかった場合にエラーが表示されること' do
+    sign_in user
+
     visit blog_entry_path(blog, entry)
 
     expect {
@@ -17,6 +20,8 @@ RSpec.describe 'Comment管理', type: :system do
   scenario 'Commentの新規作成時にbodyを入力した場合は未承認状態でデータが保存されること' do
     ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
     ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
+
+    sign_in user
 
     visit blog_entry_path(blog, entry)
 
@@ -43,6 +48,8 @@ RSpec.describe 'Comment管理', type: :system do
     FactoryBot.create(:comment, body: '承認済みコメント', status: 'approved', entry: entry)
     FactoryBot.create(:comment, body: '未承認コメント', status: nil, entry: entry)
 
+    sign_in user
+
     visit blog_entry_path(blog, entry)
 
     aggregate_failures do
@@ -55,6 +62,8 @@ RSpec.describe 'Comment管理', type: :system do
   scenario 'Entryの閲覧画面で未承認状態のCommentを承認できること' do
     FactoryBot.create(:comment, body: '承認済みコメント', status: 'approved', entry: entry)
     comment = FactoryBot.create(:comment, body: '目的のコメント', status: nil, entry: entry)
+
+    sign_in user
 
     visit blog_entry_path(blog, entry)
 
@@ -74,6 +83,8 @@ RSpec.describe 'Comment管理', type: :system do
   scenario 'Entryの閲覧画面からCommentを削除できること' do
     FactoryBot.create(:comment, body: '承認済みコメント', status: 'approved', entry: entry)
     comment = FactoryBot.create(:comment, body: '目的のコメント', status: nil, entry: entry)
+
+    sign_in user
 
     visit blog_entry_path(blog, entry)
 

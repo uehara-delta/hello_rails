@@ -2,9 +2,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Entry管理', type: :system do
+  let(:user) { FactoryBot.create(:user) }
   let(:blog) { FactoryBot.create(:blog) }
 
   scenario 'Entryの新規作成時にtitleを入力しなかった場合にエラーが表示されること' do
+    sign_in user
+
     visit blog_path(blog)
     click_link 'New Entry'
     fill_in :'本文', with: 'body'
@@ -16,6 +19,8 @@ RSpec.describe 'Entry管理', type: :system do
   end
 
   scenario 'Entryの新規作成時にbodyを入力しなかった場合にエラーが表示されること' do
+    sign_in user
+
     visit blog_path(blog)
     click_link 'New Entry'
     fill_in :'タイトル', with: 'title'
@@ -27,6 +32,8 @@ RSpec.describe 'Entry管理', type: :system do
   end
 
   scenario 'Entryの新規作成時にtitleとbodyを入力した場合はデータが保存され閲覧画面に遷移すること' do
+    sign_in user
+
     visit blog_path(blog)
     click_link 'New Entry'
     fill_in :'タイトル', with: '新しいタイトル'
@@ -78,6 +85,8 @@ RSpec.describe 'Entry管理', type: :system do
     entry = FactoryBot.create(:entry, title: "目的のエントリ", blog: blog)
     FactoryBot.create(:entry, title: "エントリ2", blog: blog)
 
+    sign_in user
+
     visit blog_path(blog)
     within("#entry-row-#{entry.id}") do
       click_link 'Edit'
@@ -101,6 +110,8 @@ RSpec.describe 'Entry管理', type: :system do
     entry = FactoryBot.create(:entry, title: "目的のエントリ", blog: blog)
     FactoryBot.create(:entry, title: "エントリ2", blog: blog)
 
+    sign_in user
+
     visit blog_path(blog)
     expect(page).to have_content "目的のエントリ"
 
@@ -122,6 +133,8 @@ RSpec.describe 'Entry管理', type: :system do
   scenario 'Entryの閲覧画面からEntryの編集画面に遷移し、編集ができること' do
     entry = FactoryBot.create(:entry, title: "目的のエントリ", blog: blog)
     FactoryBot.create(:comment, entry: entry)
+
+    sign_in user
 
     visit blog_entry_path(blog, entry)
     click_link 'entry-edit-link'

@@ -1,6 +1,7 @@
 class EntriesController < ApplicationController
   before_action :set_blog
   before_action :set_entry, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /blogs/1/entries/1
   # GET /blogs/1/entries/1.json

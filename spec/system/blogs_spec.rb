@@ -2,7 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Blog管理', type: :system do
+  let(:user) { FactoryBot.create(:user) }
+
   scenario 'Blogの新規作成時にtitleを入力しなかった場合にエラーが表示されること' do
+    sign_in user
+
     visit blogs_path
     click_link 'New Blog'
 
@@ -13,6 +17,8 @@ RSpec.describe 'Blog管理', type: :system do
   end
 
   scenario 'Blogの新規作成時にtitleを入力した場合はデータが保存され閲覧画面に遷移すること' do
+    sign_in user
+
     visit blogs_path
     click_link 'New Blog'
     fill_in :'タイトル', with: 'title'
@@ -47,6 +53,8 @@ RSpec.describe 'Blog管理', type: :system do
     blog = FactoryBot.create(:blog, title: "目的のブログ")
     FactoryBot.create(:blog, title: "2つ目のブログ")
 
+    sign_in user
+
     visit blogs_path
     within "#blog-row-#{blog.id}" do
       click_link 'Edit'
@@ -65,9 +73,11 @@ RSpec.describe 'Blog管理', type: :system do
     end
   end
 
-  scenario 'Blogの一覧からBlogを削除できること' do
+  scenario 'Blogの一覧からBlogを削除できること', js: true do
     blog = FactoryBot.create(:blog, title: "目的のブログ")
     FactoryBot.create(:blog, title: "2つ目のブログ")
+
+    sign_in user
 
     visit blogs_path
 
@@ -91,6 +101,8 @@ RSpec.describe 'Blog管理', type: :system do
   scenario 'Blogの閲覧画面からBlogの編集画面に遷移し、編集ができること' do
     blog = FactoryBot.create(:blog, title: "目的のブログ")
     FactoryBot.create(:entry, blog: blog)
+
+    sign_in user
 
     visit blog_path(blog)
     click_link 'blog-edit-link'

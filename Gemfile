@@ -86,3 +86,6 @@ gem 'tether-rails', '~> 1.4.0'
 
 # simple_form
 gem 'simple_form', '~> 5.0.1'
+
+# Devise
+gem 'devise'

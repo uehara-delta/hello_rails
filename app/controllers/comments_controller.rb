@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_entry
   before_action :set_comment, only: [:approve, :destroy]
+  before_action :authenticate_user!, only: [:create, :destroy, :approve]
 
   # POST /blogs/1/entries/1/comments
   # POST /blogs/1/entries/1/comments.json
@@ -19,6 +20,16 @@ class CommentsController < ApplicationController
     end
   end
 
+  # DELETE /blogs/1/entries/1/comments/1
+  # DELETE /blogs/1/entries/1/comments/1.json
+  def destroy
+    @comment.destroy
+    respond_to do |format|
+      format.html { redirect_to [@blog, @entry], notice: 'Comment was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
   # PUT /blogs/1/entries/1/comments/1/approve
   # PUT /blogs/1/entries/1/comments/1/approve.json
   def approve
@@ -30,16 +41,6 @@ class CommentsController < ApplicationController
         format.html { redirect_to [@blog, @entry], notice: @comment.errors.full_messages.join("\n") }
         format.json { render json: @comment.errors, status: :unprocessable_comment }
       end
-    end
-  end
-
-  # DELETE /blogs/1/entries/1/comments/1
-  # DELETE /blogs/1/entries/1/comments/1.json
-  def destroy
-    @comment.destroy
-    respond_to do |format|
-      format.html { redirect_to [@blog, @entry], notice: 'Comment was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

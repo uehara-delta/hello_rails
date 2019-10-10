@@ -59,6 +59,9 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
+  # Use Devise
+  config.include Devise::Test::IntegrationHelpers, type: :system
+
   config.before(:each, type: :system) do
     driven_by :selenium_chrome_headless
   end
