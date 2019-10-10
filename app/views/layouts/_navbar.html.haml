@@ -1,5 +1,20 @@
 %nav.navbar.navbar-expand-lg.nabvar-light.bg-light
   = link_to "Blog Manager", root_path, id: "logo", class: "navbar-brand"
-  %ul.navbar-nav.mr-auto
-    %li.nav-item
-      = link_to "blogs", blogs_path, class: "nav-link"
+  %button.navbar-toggler{ type: "button", data: { toggle: "collapse", target: "#navbarContent" },
+                         aria: { controls: "navbarContent", expanded: "false", label: "Toggle navigation" } }
+    %span.navbar-toggler-icon
+  .collapse.navbar-collapse#navbarContent
+    %ul.navbar-nav.mr-auto
+      - if user_signed_in?
+        %li.nav-item.dropdown
+          %a.nav-link.dropdown-toggle#navbarDropdown{ href: '#', role: "button",
+                                                     data: { toggle: "dropdown" },
+                                                     aria: { haspopup: "true", expanded: "false" } }
+            Account
+          .dropdown-menu{ aria: { labelledby: "navbarDropdown" } }
+            = link_to "Change profile", edit_user_registration_path, class: "dropdown-item"
+            .dropdown-divider
+            = link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item"
+      - else
+        %li.nav-item
+          = link_to "Log in", new_user_session_path, class: "nav-link"
