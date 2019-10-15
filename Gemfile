@@ -89,3 +89,7 @@ gem 'simple_form', '~> 5.0.1'
 
 # Devise
 gem 'devise'
+
+# Google login
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
