@@ -94,6 +94,7 @@ gem 'devise'
 # Google login
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection', '~> 0.1'
 
 # Enumerize
 gem 'enumerize'
