@@ -12,18 +12,18 @@ RSpec.describe Entry, type: :model do
   it "titleがなければ無効な状態であること" do
     entry = FactoryBot.build(:entry, title: nil)
     entry.valid?
-    expect(entry.errors[:title]).to include("を入力してください")
+    expect(entry.errors).to be_of_kind(:title, :blank)
   end
 
   it "bodyがなければ無効な状態であること" do
     entry = FactoryBot.build(:entry, body: nil)
     entry.valid?
-    expect(entry.errors[:body]).to include("を入力してください")
+    expect(entry.errors).to be_of_kind(:body, :blank)
   end
 
   it "blogに属していなければ無効な状態であること" do
     entry = FactoryBot.build(:entry, blog_id: nil)
     entry.valid?
-    expect(entry.errors[:blog]).to include("を入力してください")
+    expect(entry.errors).to be_of_kind(:blog, :blank)
   end
 end

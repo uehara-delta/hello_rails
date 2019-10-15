@@ -31,3 +31,5 @@
 
 en:
   hello: "Hello world"
+  flash:
+    user_updated: 'Profile updated'

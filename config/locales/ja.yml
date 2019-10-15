@@ -13,5 +13,17 @@ ja:
         body: '本文'
       comment:
         body: '内容'
+      user:
+        name: '名前'
+        sex: '性別'
     required:
       html: '<abbr class="nec">必須</abbr>'
+  enumerize:
+    user:
+      sex:
+        male: 男
+        female: 女
+        other: その他
+        rather_not_say: 回答しない
+  flash:
+    user_updated: 'ユーザー情報を更新しました'

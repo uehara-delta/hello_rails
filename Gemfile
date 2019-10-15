@@ -63,6 +63,7 @@ end
 group :test do
   gem 'capybara', '~> 3.29'
   gem 'webdrivers', '~> 4.1.3'
+  gem 'selenium-webdriver'
   gem 'launchy', '~> 2.4.3'
 end
 
@@ -93,3 +94,6 @@ gem 'devise'
 # Google login
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+
+# Enumerize
+gem 'enumerize'

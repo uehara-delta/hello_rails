@@ -13,12 +13,12 @@ RSpec.describe Comment, type: :model do
   it "bodyがなければ無効な状態であること" do
     comment = entry.comments.new(body: nil)
     comment.valid?
-    expect(comment.errors[:body]).to include("を入力してください")
+    expect(comment.errors).to be_of_kind(:body, :blank)
   end
 
   it "entryに属していなければ無効な状態であること" do
     comment = Comment.new(body: "新しいコメント")
     comment.valid?
-    expect(comment.errors[:entry]).to include("を入力してください")
+    expect(comment.errors).to be_of_kind(:entry, :blank)
   end
 end
