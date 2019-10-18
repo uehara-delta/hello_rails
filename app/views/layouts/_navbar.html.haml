@@ -1,9 +1,9 @@
-%nav.navbar.navbar-expand-lg.nabvar-light.bg-light
+%div.navbar.navbar-expand-sm.navbar-light.bg-light
   = link_to "Blog Manager", root_path, id: "logo", class: "navbar-brand"
   %button.navbar-toggler{ type: "button", data: { toggle: "collapse", target: "#navbarContent" },
-                         aria: { controls: "navbarContent", expanded: "false", label: "Toggle navigation" } }
+                         aria: { expanded: "false", label: "Toggle navigation" } }
     %span.navbar-toggler-icon
-  .collapse.navbar-collapse#navbarContent
+  .navbar-collapse.collapse#navbarContent
     %ul.navbar-nav.mr-auto
       - if user_signed_in?
         %li.nav-item.dropdown
