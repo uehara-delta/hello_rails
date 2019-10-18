@@ -98,3 +98,6 @@ gem 'omniauth-rails_csrf_protection', '~> 0.1'
 
 # Enumerize
 gem 'enumerize'
+
+# CarrierWave
+gem 'carrierwave', '~> 2.0'

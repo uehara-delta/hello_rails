@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   enumerize :sex, in: [:male, :female, :other, :rather_not_say]
 
+  mount_uploader :avatar, AvatarUploader
+
   protected
 
   def self.find_for_google(auth)

@@ -16,6 +16,8 @@ ja:
       user:
         name: '名前'
         sex: '性別'
+        avatar: 'アバター'
+        remove_avatar: 'アバターを削除'
     required:
       html: '<abbr class="nec">必須</abbr>'
   enumerize:
