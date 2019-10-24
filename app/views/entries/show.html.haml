@@ -1,8 +1,9 @@
 %h1
   = @entry.title
-  = link_to edit_blog_entry_path(@blog, @entry), id: "entry-edit-link", class: "m-2 btn btn-sm btn-secondary" do
-    = icon 'fas', 'edit'
-    Edit
+  - if user_signed_in?
+    = link_to edit_blog_entry_path(@blog, @entry), id: "entry-edit-link", class: "m-2 btn btn-sm btn-secondary" do
+      = icon 'fas', 'edit'
+      Edit
 
 %p
   = @entry.body
@@ -22,14 +23,21 @@
             %td
           - else
             %td (承認待ち)
-            %td= link_to 'Approve', approve_blog_entry_comment_path(@blog, @entry, comment), method: :put
-          %td= link_to 'Destroy', blog_entry_comment_path(@blog, @entry, comment), method: :delete, data: { confirm: 'Are you sure?' }
+            - if user_signed_in?
+              %td= link_to 'Approve', approve_blog_entry_comment_path(@blog, @entry, comment), method: :put
+            - else
+              %td
+          - if user_signed_in?
+            %td= link_to 'Destroy', blog_entry_comment_path(@blog, @entry, comment), method: :delete, data: { confirm: 'Are you sure?' }
+          -else
+            %td
 
-  .card
-    .card-body
-      %h4.card-title New comment
-      = simple_form_for [@blog, @entry, @new_comment] do |f|
-        = f.error_notification
-        = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
-        = f.input :body
-        = f.button :submit, class: "btn-primary"
+  - if user_signed_in?
+    .card
+      .card-body
+        %h4.card-title New comment
+        = simple_form_for [@blog, @entry, @new_comment] do |f|
+          = f.error_notification
+          = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+          = f.input :body
+          = f.button :submit, class: "btn-primary"

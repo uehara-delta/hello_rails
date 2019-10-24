@@ -1,8 +1,9 @@
 %h1
   = @blog.title
-  = link_to edit_blog_path(@blog), id: "blog-edit-link", class: "m-2 btn btn-sm btn-secondary" do
-    = icon 'fas', 'edit'
-    Edit
+  - if user_signed_in?
+    = link_to edit_blog_path(@blog), id: "blog-edit-link", class: "m-2 btn btn-sm btn-secondary" do
+      = icon 'fas', 'edit'
+      Edit
 
 .d-flex.flex-row.mt-2
   = link_to 'Back', blogs_path, class: "btn btn-link"
@@ -10,9 +11,10 @@
 .mt-2
   %h2.m-2.pt-2
     Entries
-    = link_to new_blog_entry_path(@blog), class: "btn btn-sm btn-primary" do
-      = icon('fas', 'plus')
-      New Entry
+    - if user_signed_in?
+      = link_to new_blog_entry_path(@blog), class: "btn btn-sm btn-primary" do
+        = icon('fas', 'plus')
+        New Entry
 
   %table.table
     %thead
@@ -26,5 +28,9 @@
           %td= entry.title
           %td= entry.body
           %td= link_to 'Show', blog_entry_path(@blog, entry)
-          %td= link_to 'Edit', edit_blog_entry_path(@blog, entry)
-          %td= link_to 'Destroy', blog_entry_path(@blog, entry), method: :delete, data: { confirm: 'Are you sure?' }
+          - if user_signed_in?
+            %td= link_to 'Edit', edit_blog_entry_path(@blog, entry)
+            %td= link_to 'Destroy', blog_entry_path(@blog, entry), method: :delete, data: { confirm: 'Are you sure?' }
+          - else
+            %td
+            %td

@@ -1,8 +1,9 @@
 %h1
   Blogs
-  = link_to new_blog_path, class: "btn btn-sm btn-primary" do
-    = icon('fas', 'plus')
-    New Blog
+  - if user_signed_in?
+    = link_to new_blog_path, class: "btn btn-sm btn-primary" do
+      = icon('fas', 'plus')
+      New Blog
 
 %table.table
   %thead
@@ -14,5 +15,9 @@
             %tr{ id: "blog-row-#{blog.id}" }
               %td= blog.title
               %td= link_to 'Show', blog
-              %td= link_to 'Edit', edit_blog_path(blog)
-              %td= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' }
+              - if user_signed_in?
+                %td= link_to 'Edit', edit_blog_path(blog)
+                %td= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' }
+              - else
+                %td
+                %td

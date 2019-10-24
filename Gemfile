@@ -101,3 +101,6 @@ gem 'enumerize'
 
 # CarrierWave
 gem 'carrierwave', '~> 2.0'
+
+# Ransack
+gem 'ransack', github: 'activerecord-hackery/ransack'
