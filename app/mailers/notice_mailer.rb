@@ -4,6 +4,6 @@ class NoticeMailer < ApplicationMailer
     @comment = params[:comment]
     @entry = @comment.entry
     @blog = @entry.blog
-    mail to: "admin@example.com", subject: "新しいコメントが投稿されました"
+    mail to: @blog.user.email, subject: "新しいコメントが投稿されました"
   end
 end

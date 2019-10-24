@@ -1,6 +1,7 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   # GET /blogs
   # GET /blogs.json
@@ -25,7 +26,7 @@ class BlogsController < ApplicationController
   # POST /blogs
   # POST /blogs.json
   def create
-    @blog = Blog.new(blog_params)
+    @blog = current_user.blogs.build(blog_params)
     respond_to do |format|
       if @blog.save
         format.html { redirect_to @blog, notice: 'Blog was successfully created.' }
@@ -68,6 +69,13 @@ class BlogsController < ApplicationController
 
     def blog_params
       params.require(:blog).permit(:title)
+    end
+
+    def correct_user
+      unless current_user?(@blog.user)
+        flash[:warning] = I18n.t('flash.incorrect_user')
+        redirect_to(root_path)
+      end
     end
 
 end

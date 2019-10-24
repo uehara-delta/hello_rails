@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Comment管理', type: :system do
   context "ユーザーがログインしている場合" do
     let(:user) { FactoryBot.create(:user) }
-    let(:blog) { FactoryBot.create(:blog) }
+    let(:blog) { FactoryBot.create(:blog, user: user) }
     let(:entry) { FactoryBot.create(:entry, blog: blog) }
 
     scenario 'Commentの新規作成時にbodyを入力しなかった場合にエラーが表示されること' do
@@ -39,7 +39,7 @@ RSpec.describe 'Comment管理', type: :system do
       mail = ActionMailer::Base.deliveries.last
 
       aggregate_failures do
-        expect(mail.to).to eq ["admin@example.com"]
+        expect(mail.to).to eq [ user.email ]
         expect(mail.text_part.body.encoded).to match "Blog: #{blog.title}"
         expect(mail.html_part.body.encoded).to match "Blog: #{blog.title}"
       end
@@ -141,6 +141,65 @@ RSpec.describe 'Comment管理', type: :system do
       aggregate_failures do
         expect(page).not_to have_selector "form#new_comment"
         expect(page).not_to have_field "comment[body]"
+      end
+    end
+  end
+
+  context "ログインユーザーとは異なるユーザーが作成したブログの場合" do
+    let(:user) { FactoryBot.create(:user) }
+    let(:other_user) { FactoryBot.create(:user) }
+    let(:others_blog) { FactoryBot.create(:blog, user: other_user, title: '他人のブログ') }
+    let(:entry) { FactoryBot.create(:entry, blog: others_blog) }
+
+    scenario 'Entryの閲覧画面からCommentの新規作成ができること' do
+      ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+      ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
+
+      sign_in user
+
+      visit blog_entry_path(others_blog, entry)
+
+      fill_in :'内容', with: '新しいコメント'
+      expect {
+        click_button '登録'
+      }.to change(Comment, :count).by(1)
+      aggregate_failures do
+        expect(current_path).to eq blog_entry_path(others_blog, entry)
+        expect(page).to have_content 'Comment was successfully created.'
+        expect(page).to_not have_content '新しいコメント'
+        expect(page).to have_content '(承認待ち)'
+      end
+      mail = ActionMailer::Base.deliveries.last
+
+      aggregate_failures do
+        expect(mail.to).to eq [ other_user.email ]
+        expect(mail.text_part.body.encoded).to match "Blog: #{others_blog.title}"
+        expect(mail.html_part.body.encoded).to match "Blog: #{others_blog.title}"
+      end
+    end
+
+    scenario 'Entryの閲覧画面にCommentの削除リンクと承認リンクが表示されないこと(Commentは未承認)' do
+      comment = FactoryBot.create(:comment, entry: entry, status: nil)
+
+      sign_in user
+
+      visit blog_entry_path(others_blog, entry)
+
+      aggregate_failures do
+        expect(page).to have_content '(承認待ち)'
+        expect(page).not_to have_link 'Destroy'
+        expect(page).not_to have_link 'Approve'
+      end
+    end
+
+    scenario 'Entryの閲覧画面にCommentの削除リンクが表示されないこと(Commentは承認済み)' do
+      comment = FactoryBot.create(:comment, entry: entry, status: 'approved')
+
+      visit blog_entry_path(others_blog, entry)
+
+      aggregate_failures do
+        expect(page).to have_content comment.body
+        expect(page).not_to have_link 'Destroy'
       end
     end
   end

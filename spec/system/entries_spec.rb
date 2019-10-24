@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Entry管理', type: :system do
   context "ユーザーがログインしている場合" do
     let(:user) { FactoryBot.create(:user) }
-    let(:blog) { FactoryBot.create(:blog) }
+    let(:blog) { FactoryBot.create(:blog, user: user) }
 
     scenario 'Entryの新規作成時にtitleを入力しなかった場合にエラーが表示されること' do
       sign_in user
@@ -187,6 +187,56 @@ RSpec.describe 'Entry管理', type: :system do
 
     scenario 'Entryの編集ページへの遷移がエラーになること' do
       visit edit_blog_entry_path(blog, entry)
+
+      aggregate_failures do
+        expect(current_path).to eq root_path
+        expect(page).to have_selector ".alert.alert-warning"
+      end
+    end
+  end
+
+  context "ログインユーザーとは異なるユーザーが作成したブログの場合" do
+    let(:user) { FactoryBot.create(:user) }
+    let(:other_user) { FactoryBot.create(:user) }
+    let(:others_blog) { FactoryBot.create(:blog, user: other_user) }
+    let(:others_entry) { FactoryBot.create(:entry, blog: others_blog) }
+
+    scenario 'Blogの閲覧画面にEntryの新規作成リンクが表示されないこと' do
+      sign_in user
+
+      visit blog_path(others_blog)
+
+      expect(page).not_to have_link 'New Entry'
+    end
+
+    scenario 'Blogの閲覧画面にEntryの編集と削除のリンクが表示されないこと' do
+      sign_in user
+
+      entry_id = others_entry.id
+
+      visit blog_path(others_blog)
+
+      aggregate_failures do
+        within "#entry-row-#{entry_id}" do
+          expect(page).to have_link 'Show'
+          expect(page).not_to have_link 'Edit'
+          expect(page).not_to have_link 'Destroy'
+        end
+      end
+    end
+
+    scenario 'Entryの閲覧画面にEntryの編集リンクが表示されないこと' do
+      sign_in user
+
+      visit blog_entry_path(others_blog, others_entry)
+
+      expect(page).not_to have_link 'Edit'
+    end
+
+    scenario 'Entryの編集ページへの遷移がエラーになること' do
+      sign_in user
+
+      visit edit_blog_entry_path(others_blog, others_entry)
 
       aggregate_failures do
         expect(current_path).to eq root_path

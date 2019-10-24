@@ -1,6 +1,6 @@
 %h1
   = @blog.title
-  - if user_signed_in?
+  - if user_signed_in? && current_user?(@blog.user)
     = link_to edit_blog_path(@blog), id: "blog-edit-link", class: "m-2 btn btn-sm btn-secondary" do
       = icon 'fas', 'edit'
       Edit
@@ -11,7 +11,7 @@
 .mt-2
   %h2.m-2.pt-2
     Entries
-    - if user_signed_in?
+    - if user_signed_in? && current_user?(@blog.user)
       = link_to new_blog_entry_path(@blog), class: "btn btn-sm btn-primary" do
         = icon('fas', 'plus')
         New Entry
@@ -28,7 +28,7 @@
           %td= entry.title
           %td= entry.body
           %td= link_to 'Show', blog_entry_path(@blog, entry)
-          - if user_signed_in?
+          - if user_signed_in? && current_user?(@blog.user)
             %td= link_to 'Edit', edit_blog_entry_path(@blog, entry)
             %td= link_to 'Destroy', blog_entry_path(@blog, entry), method: :delete, data: { confirm: 'Are you sure?' }
           - else

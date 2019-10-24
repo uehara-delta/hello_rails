@@ -1,6 +1,6 @@
 %h1
   = @entry.title
-  - if user_signed_in?
+  - if user_signed_in? && current_user?(@blog.user)
     = link_to edit_blog_entry_path(@blog, @entry), id: "entry-edit-link", class: "m-2 btn btn-sm btn-secondary" do
       = icon 'fas', 'edit'
       Edit
@@ -23,11 +23,11 @@
             %td
           - else
             %td (承認待ち)
-            - if user_signed_in?
+            - if user_signed_in? && current_user?(@blog.user)
               %td= link_to 'Approve', approve_blog_entry_comment_path(@blog, @entry, comment), method: :put
             - else
               %td
-          - if user_signed_in?
+          - if user_signed_in? && current_user?(@blog.user)
             %td= link_to 'Destroy', blog_entry_comment_path(@blog, @entry, comment), method: :delete, data: { confirm: 'Are you sure?' }
           -else
             %td

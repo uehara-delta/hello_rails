@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   extend Enumerize
 
+  has_many :blogs
+  has_many :comments
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :omniauthable, omniauth_providers: %i(google_oauth2)

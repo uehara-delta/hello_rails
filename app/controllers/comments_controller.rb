@@ -2,11 +2,12 @@ class CommentsController < ApplicationController
   before_action :set_entry
   before_action :set_comment, only: [:approve, :destroy]
   before_action :authenticate_user!, only: [:create, :destroy, :approve]
+  before_action :correct_user, only: [:destroy, :approve]
 
   # POST /blogs/1/entries/1/comments
   # POST /blogs/1/entries/1/comments.json
   def create
-    @comment = Comment.new(comment_params)
+    @comment = current_user.comments.build(comment_params)
     @comment.status = 'unapproved'
     respond_to do |format|
       if @comment.save
@@ -59,6 +60,13 @@ class CommentsController < ApplicationController
 
     def comment_params
       params.require(:comment).permit(:body).merge(entry_id: params[:entry_id])
+    end
+
+    def correct_user
+      unless current_user?(@blog.user)
+        flash[:warning] = I18n.t('flash.incorrect_user')
+        redirect_to(root_path)
+      end
     end
 
 end

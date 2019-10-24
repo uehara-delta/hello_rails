@@ -2,6 +2,7 @@ class EntriesController < ApplicationController
   before_action :set_blog
   before_action :set_entry, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
+  before_action :correct_user, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /blogs/1/entries/1
   # GET /blogs/1/entries/1.json
@@ -73,4 +74,12 @@ class EntriesController < ApplicationController
     def entry_params
       params.require(:entry).permit(:title, :body).merge(blog_id: params[:blog_id])
     end
+
+    def correct_user
+      unless current_user?(@blog.user)
+        flash[:warning] = I18n.t('flash.incorrect_user')
+        redirect_to(root_url)
+      end
+    end
+
 end

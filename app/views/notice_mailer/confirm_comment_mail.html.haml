@@ -12,6 +12,7 @@
       %li= "Blog: #{@blog.title}"
       %li= "Entry: #{@entry.title}"
       %li= "Comment: #{@comment.body}"
+      %li= "Posted by: #{@comment.user.name} / #{@comment.user.email}"
       %br
       %li
         URL:

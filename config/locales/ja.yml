@@ -29,3 +29,4 @@ ja:
         rather_not_say: 回答しない
   flash:
     user_updated: 'ユーザー情報を更新しました'
+    incorrect_user: '異なるユーザーが作成したブログは変更できません'
