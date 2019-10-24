@@ -165,6 +165,7 @@ RSpec.describe 'Entry管理', type: :system do
       expect(page).not_to have_link 'New Entry'
     end
 
+
     scenario 'Blogの閲覧画面にEntryの編集と削除のリンクが表示されないこと' do
       entry_id = entry.id
 
@@ -176,6 +177,34 @@ RSpec.describe 'Entry管理', type: :system do
           expect(page).not_to have_link 'Edit'
           expect(page).not_to have_link 'Destroy'
         end
+      end
+    end
+
+    scenario 'Blogの閲覧画面でEntryのTitleの部分一致検索ができること' do
+      entry1 = FactoryBot.create(:entry, blog: blog, title: '一番目のエントリー')
+      entry2 = FactoryBot.create(:entry, blog: blog, title: '二番目のエントリー')
+
+      visit blog_path(blog)
+      fill_in 'q[title_cont]', with: '一番目'
+      click_button '検索'
+
+      aggregate_failures do
+        expect(page).to have_content entry1.title
+        expect(page).not_to have_content entry2.title
+      end
+    end
+
+    scenario 'Blogの閲覧画面でEntryのBodyの部分一致検索ができること' do
+      entry1 = FactoryBot.create(:entry, blog: blog, title: '一番目のエントリー', body: '一番目のボディー')
+      entry2 = FactoryBot.create(:entry, blog: blog, title: '二番目のエントリー', body: '二番目のボディー')
+
+      visit blog_path(blog)
+      fill_in 'q[body_cont]', with: '二番目'
+      click_button '検索'
+
+      aggregate_failures do
+        expect(page).not_to have_content entry1.title
+        expect(page).to have_content entry2.title
       end
     end
 

@@ -5,6 +5,13 @@
       = icon('fas', 'plus')
       New Blog
 
+= search_form_for @q, class: 'form-inline' do |f|
+  = f.label :title_cont, class: 'my-1 mr-2'
+  = f.search_field :title_cont, class: 'form-control mb-2 mr-sm-2'
+  = f.label :user_name_cont, 'Author は以下を含む', class: 'my-1 mr-2'
+  = f.search_field :user_name_cont, class: 'form-control mb-2 mr-sm-2'
+  = f.submit class: 'btn btn-info mb-2 mr-sm-2'
+
 %table.table
   %thead
     %tr

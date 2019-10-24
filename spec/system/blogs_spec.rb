@@ -160,6 +160,34 @@ RSpec.describe 'Blog管理', type: :system do
       end
     end
 
+    scenario 'Blogの一覧でTitleの部分一致検索ができること' do
+      blog1 = FactoryBot.create(:blog, title: '一番目のブログ')
+      blog2 = FactoryBot.create(:blog, title: '二番目のブログ')
+
+      visit blogs_path
+      fill_in 'q[title_cont]', with: '一番目'
+      click_button '検索'
+
+      aggregate_failures do
+        expect(page).to have_content blog1.title
+        expect(page).not_to have_content blog2.title
+      end
+    end
+
+    scenario 'Blogの一覧で作成者名の部分一致検索ができること' do
+      blog1 = FactoryBot.create(:blog, title: '一番目のブログ', user: FactoryBot.create(:user, name: 'test1_user'))
+      blog2 = FactoryBot.create(:blog, title: '二番目のブログ', user: FactoryBot.create(:user, name: 'test2_user'))
+
+      visit blogs_path
+      fill_in 'q[user_name_cont]', with: 'test2'
+      click_button '検索'
+
+      aggregate_failures do
+        expect(page).not_to have_content blog1.title
+        expect(page).to have_content blog2.title
+      end
+    end
+
     scenario "Blogの一覧画面にBlogの編集と削除のリンクが表示されないこと" do
       FactoryBot.create(:blog)
 

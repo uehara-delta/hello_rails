@@ -6,12 +6,15 @@ class BlogsController < ApplicationController
   # GET /blogs
   # GET /blogs.json
   def index
-    @blogs = Blog.all
+    @q = Blog.ransack(params[:q])
+    @blogs = @q.result.includes(:user)
   end
 
   # GET /blogs/1
   # GET /blogs/1.json
   def show
+    @q = @blog.entries.ransack(params[:q])
+    @entries = @q.result
   end
 
   # GET /blogs/new
