@@ -48,10 +48,7 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  adapter: mysql2
-  encoding: unicode
-  database: hello_rails_production
-  pool: 5
+  url: <%= ENV['DATABASE_URL'] %>
 
 #  username: hello_rails
 #  password: <%= ENV['HELLO_RAILS_DATABASE_PASSWORD'] %>
