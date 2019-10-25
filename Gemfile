@@ -6,8 +6,11 @@ ruby '2.6.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'
-# Use mysql as the database for Active Record
-gem 'mysql2', '>= 0.4.4', '< 0.6.0'
+# Use mysql as the database for Active Record (only develpment and test environment)
+gem 'mysql2', '>= 0.4.4', '< 0.6.0', group: [:development, :test]
+# Use posgresql as the databasy for Active Record (for production environment)
+gem 'pg', group: :production
+
 # Use Puma as the app server
 gem 'puma', '~> 4.2.0'
 # Use SCSS for stylesheets
