@@ -111,6 +111,6 @@ group :production do
   gem 'pg'
   # Use fog-aws for carrierwave
   gem 'fog-aws'
-  # Currently not used but only settings
+  # Currently not used but only settings for Active Storage
   gem 'aws-sdk-s3', require: false
 end
