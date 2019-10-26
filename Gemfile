@@ -104,6 +104,7 @@ gem 'enumerize'
 
 # CarrierWave
 gem 'carrierwave', '~> 2.0'
+gem 'fog-aws', group: :production
 
 # Ransack
 gem 'ransack', github: 'activerecord-hackery/ransack'
