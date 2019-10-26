@@ -8,8 +8,6 @@ ruby '2.6.5'
 gem 'rails', '~> 6.0.0'
 # Use mysql as the database for Active Record (only develpment and test environment)
 gem 'mysql2', '>= 0.4.4', '< 0.6.0', group: [:development, :test]
-# Use posgresql as the databasy for Active Record (for production environment)
-gem 'pg', group: :production
 
 # Use Puma as the app server
 gem 'puma', '~> 4.2.0'
@@ -104,7 +102,15 @@ gem 'enumerize'
 
 # CarrierWave
 gem 'carrierwave', '~> 2.0'
-gem 'fog-aws', group: :production
 
 # Ransack
 gem 'ransack', github: 'activerecord-hackery/ransack'
+
+group :production do
+  # Use posgresql as the databasy for Active Record
+  gem 'pg'
+  # Use fog-aws for carrierwave
+  gem 'fog-aws'
+  # Currently not used but only settings
+  gem 'aws-sdk-s3', require: false
+end
