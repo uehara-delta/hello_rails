@@ -113,4 +113,6 @@ group :production do
   gem 'fog-aws'
   # Currently not used but only settings for Active Storage
   gem 'aws-sdk-s3', require: false
+  # Use New Relic APM
+  gem 'newrelic_rpm'
 end
