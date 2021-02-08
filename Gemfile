@@ -101,7 +101,7 @@ gem 'omniauth-rails_csrf_protection', '~> 0.1'
 gem 'enumerize'
 
 # CarrierWave
-gem 'carrierwave', '~> 2.0'
+gem 'carrierwave', '~> 2.1'
 
 # Ransack
 gem 'ransack', github: 'activerecord-hackery/ransack'
