@@ -10,7 +10,7 @@ gem 'rails', '~> 6.0.0'
 gem 'mysql2', '>= 0.4.4', '< 0.6.0', group: [:development, :test]
 
 # Use Puma as the app server
-gem 'puma', '~> 4.2.0'
+gem 'puma', '~> 4.3.12'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 6.0.0'
 # Use Uglifier as compressor for JavaScript assets
